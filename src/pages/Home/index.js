@@ -1,107 +1,67 @@
-import React from "react";
-import { SafeAreaView, Text, StyleSheet, FlatList } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, SafeAreaView, Text, StyleSheet, FlatList } from "react-native";
+import * as Location from "expo-location";
 
 import Menu from "../../components/Menu";
 import Header from "../../components/Header";
 import Conditions from "../../components/Conditions";
 import Forecast from "../../components/Forecast";
 
-const condicoes = [
-  {
-    date: "11/03",
-    weekday: "Qui",
-    max: 25,
-    min: 16,
-    description: "Tempestades",
-    condition: "storm",
-  },
-  {
-    date: "12/03",
-    weekday: "Sex",
-    max: 26,
-    min: 17,
-    description: "Tempestades",
-    condition: "rain",
-  },
-  {
-    date: "13/03",
-    weekday: "Sáb",
-    max: 26,
-    min: 18,
-    description: "Tempestades isoladas",
-    condition: "clear_day",
-  },
-  {
-    date: "14/03",
-    weekday: "Dom",
-    max: 27,
-    min: 18,
-    description: "Tempestades",
-    condition: "snow",
-  },
-  {
-    date: "15/03",
-    weekday: "Seg",
-    max: 25,
-    min: 18,
-    description: "Tempestades",
-    condition: "clear_night",
-  },
-  {
-    date: "16/03",
-    weekday: "Ter",
-    max: 26,
-    min: 17,
-    description: "Tempestades",
-    condition: "storm",
-  },
-  {
-    date: "17/03",
-    weekday: "Qua",
-    max: 25,
-    min: 18,
-    description: "Tempestades",
-    condition: "storm",
-  },
-  {
-    date: "18/03",
-    weekday: "Qui",
-    max: 25,
-    min: 19,
-    description: "Tempestades",
-    condition: "storm",
-  },
-  {
-    date: "19/03",
-    weekday: "Sex",
-    max: 22,
-    min: 18,
-    description: "Alguns chuviscos",
-    condition: "rain",
-  },
-  {
-    date: "20/03",
-    weekday: "Sáb",
-    max: 21,
-    min: 17,
-    description: "Tempo nublado",
-    condition: "cloud",
-  },
-];
+import api, { key } from "../../services/api";
 
 const Home = () => {
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [weather, setWeather] = useState({});
+  const [background, setBackground] = useState(["#1ed6ff", "#97c1ff"]);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permissão negada para acessar localização");
+        setLoading(false);
+        return;
+      }
+      const { coords } = await Location.getCurrentPositionAsync({});
+      const { latitude, longitude } = coords;
+      const response = await api.get(
+        `weather?fields=only_results&key=${key}&lat=${latitude}&lon=${longitude}`
+      );
+      if (
+        response.data.currently === "noite" ||
+        response.data.currently === "night"
+      ) {
+        setBackground(["#0c3741", "#0f2f61"]);
+      }
+      setWeather(response.data);
+      setLoading(false);
+    })();
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <Text style={{ fontSize: 17, fontStyle: "italic" }}>
+          Carregando dados...
+        </Text>
+      </View>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Menu />
-      <Header />
-      <Conditions />
+      <Header weather={weather} background={background} />
+      <Conditions weather={weather} />
       <FlatList
         horizontal={true}
         contentContainerStyle={{ paddingBottom: "5%" }}
         style={styles.list}
-        data={condicoes}
+        data={weather.forecast}
         keyExtractor={(item) => item.date}
         renderItem={({ item }) => <Forecast data={item} />}
+        showsHorizontalScrollIndicator={false}
       />
     </SafeAreaView>
   );

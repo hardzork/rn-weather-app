@@ -9,7 +9,7 @@ const Forecast = ({ data }) => {
         <Text style={styles.date}>{data.date}</Text>
         <Text style={styles.weekday}>{data.weekday}</Text>
       </View>
-      {condition(data.condition)}
+      {condition(data.condition, 32, false)}
       <View style={styles.temp}>
         <Text style={styles.min}>{data.min}°</Text>
         <Text style={styles.max}>{data.max}°</Text>

@@ -14,54 +14,104 @@
 import React from "react";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
-export function condition(condition) {
+export function condition(condition, size, isHome) {
   switch (condition) {
     case "storm":
-      return <Ionicons name="thunderstorm-outline" size={32} color="#1ec9ff" />;
+      return (
+        <Ionicons
+          name="thunderstorm-outline"
+          size={size}
+          color={isHome ? "#fff" : "#1ec9ff"}
+        />
+      );
       break;
     case "snow":
-      return <Ionicons name="snow-outline" size={32} color="#1ec9ff" />;
+      return (
+        <Ionicons
+          name="snow-outline"
+          size={size}
+          color={isHome ? "#fff" : "#1ec9ff"}
+        />
+      );
       break;
     case "hail":
       return (
-        <MaterialCommunityIcons name="weather-hail" size={32} color="#1ec9ff" />
+        <MaterialCommunityIcons
+          name="weather-hail"
+          size={size}
+          color={isHome ? "#fff" : "#1ec9ff"}
+        />
       );
       break;
     case "rain":
-      return <Ionicons name="rainy-outline" size={32} color="#1ec9ff" />;
+      return (
+        <Ionicons
+          name="rainy-outline"
+          size={size}
+          color={isHome ? "#fff" : "#1ec9ff"}
+        />
+      );
       break;
     case "fog":
       return (
-        <MaterialCommunityIcons name="weather-fog" size={32} color="#1ec9ff" />
+        <MaterialCommunityIcons
+          name="weather-fog"
+          size={size}
+          color={isHome ? "#fff" : "#1ec9ff"}
+        />
       );
       break;
     case "clear_day":
-      return <Ionicons name="sunny-outline" size={32} color="#ffb300" />;
+      return (
+        <Ionicons
+          name="sunny-outline"
+          size={32}
+          color={isHome ? "#fff" : "#ffb300"}
+        />
+      );
       break;
     case "clear_night":
       return (
         <MaterialCommunityIcons
           name="weather-night"
-          size={32}
-          color="#1ec9ff"
+          size={size}
+          color={isHome ? "#fff" : "#1ec9ff"}
         />
       );
       break;
     case "cloud":
-      return <Ionicons name="cloudy-outline" size={32} color="#1ec9ff" />;
+      return (
+        <Ionicons
+          name="cloudy"
+          size={size}
+          color={isHome ? "#fff" : "#1ec9ff"}
+        />
+      );
       break;
     case "cloudly_day":
-      return <Ionicons name="partly-sunny-outline" size={32} color="#1ec9ff" />;
+      return (
+        <Ionicons
+          name="partly-sunny-outline"
+          size={size}
+          color={isHome ? "#fff" : "#1ec9ff"}
+        />
+      );
       break;
     case "cloudly_night":
-      return <Ionicons name="cloudy-night-outline" size={32} color="#1ec9ff" />;
+      return (
+        <Ionicons
+          name="cloudy-night-outline"
+          size={size}
+          color={isHome ? "#fff" : "#1ec9ff"}
+        />
+      );
       break;
     case "none_day":
       return (
         <MaterialCommunityIcons
           name="weather-cloudy-alert"
-          size={32}
-          color="#1ec9ff"
+          size={size}
+          color={isHome ? "#fff" : "#1ec9ff"}
         />
       );
       break;
@@ -69,8 +119,8 @@ export function condition(condition) {
       return (
         <MaterialCommunityIcons
           name="weather-cloudy-alert"
-          size={32}
-          color="#1ec9ff"
+          size={size}
+          color={isHome ? "#fff" : "#1ec9ff"}
         />
       );
       break;
